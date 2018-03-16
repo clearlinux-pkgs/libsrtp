@@ -4,12 +4,13 @@
 #
 Name     : libsrtp
 Version  : 1.6.0
-Release  : 1
+Release  : 2
 URL      : https://github.com/cisco/libsrtp/archive/v1.6.0.tar.gz
 Source0  : https://github.com/cisco/libsrtp/archive/v1.6.0.tar.gz
 Summary  : Library for SRTP (Secure Realtime Transport Protocol)
 Group    : Development/Tools
 License  : BSD-3-Clause
+Requires: libsrtp-lib
 
 %description
 Secure RTP (SRTP) Reference Implementation
@@ -20,10 +21,19 @@ mcgrew@cisco.com
 %package dev
 Summary: dev components for the libsrtp package.
 Group: Development
+Requires: libsrtp-lib
 Provides: libsrtp-devel
 
 %description dev
 dev components for the libsrtp package.
+
+
+%package lib
+Summary: lib components for the libsrtp package.
+Group: Libraries
+
+%description lib
+lib components for the libsrtp package.
 
 
 %prep
@@ -34,9 +44,9 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1521240001
+export SOURCE_DATE_EPOCH=1521242509
 %configure --disable-static
-make  %{?_smp_mflags}
+make  %{?_smp_mflags} shared_library
 
 %check
 export LANG=C
@@ -46,7 +56,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test
 
 %install
-export SOURCE_DATE_EPOCH=1521240001
+export SOURCE_DATE_EPOCH=1521242509
 rm -rf %{buildroot}
 %make_install
 
@@ -92,4 +102,9 @@ rm -rf %{buildroot}
 /usr/include/srtp/stat.h
 /usr/include/srtp/ut_sim.h
 /usr/include/srtp/xfm.h
+/usr/lib64/libsrtp.so
 /usr/lib64/pkgconfig/libsrtp.pc
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libsrtp.so.1
