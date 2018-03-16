@@ -1,0 +1,13 @@
+Configure miss: whether to build for Linux kernel context
+Configure miss: machine/types.h usability
+Configure miss: machine/types.h presence
+Configure miss: machine/types.h
+Configure miss: sys/int_types.h usability
+Configure miss: sys/int_types.h presence
+Configure miss: sys/int_types.h
+Configure miss: whether to use ISMAcryp code
+Configure miss: whether to leverage OpenSSL crypto
+Configure miss: pcap_create in -lpcap
+Configure miss: whether to use syslog for error reporting
+Configure miss: whether to use /dev/console for error reporting
+Configure miss: whether to use GDOI key management
