@@ -4,7 +4,7 @@
 #
 Name     : libsrtp
 Version  : 1.6.0
-Release  : 2
+Release  : 3
 URL      : https://github.com/cisco/libsrtp/archive/v1.6.0.tar.gz
 Source0  : https://github.com/cisco/libsrtp/archive/v1.6.0.tar.gz
 Summary  : Library for SRTP (Secure Realtime Transport Protocol)
