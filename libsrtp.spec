@@ -4,13 +4,15 @@
 #
 Name     : libsrtp
 Version  : 1.6.0
-Release  : 4
+Release  : 5
 URL      : https://github.com/cisco/libsrtp/archive/v1.6.0.tar.gz
 Source0  : https://github.com/cisco/libsrtp/archive/v1.6.0.tar.gz
 Summary  : Library for SRTP (Secure Realtime Transport Protocol)
 Group    : Development/Tools
 License  : BSD-3-Clause
-Requires: libsrtp-lib
+Requires: libsrtp-lib = %{version}-%{release}
+Requires: libsrtp-license = %{version}-%{release}
+BuildRequires : libpcap-dev
 
 %description
 Secure RTP (SRTP) Reference Implementation
@@ -21,8 +23,9 @@ mcgrew@cisco.com
 %package dev
 Summary: dev components for the libsrtp package.
 Group: Development
-Requires: libsrtp-lib
-Provides: libsrtp-devel
+Requires: libsrtp-lib = %{version}-%{release}
+Provides: libsrtp-devel = %{version}-%{release}
+Requires: libsrtp = %{version}-%{release}
 
 %description dev
 dev components for the libsrtp package.
@@ -31,33 +34,53 @@ dev components for the libsrtp package.
 %package lib
 Summary: lib components for the libsrtp package.
 Group: Libraries
+Requires: libsrtp-license = %{version}-%{release}
 
 %description lib
 lib components for the libsrtp package.
 
 
+%package license
+Summary: license components for the libsrtp package.
+Group: Default
+
+%description license
+license components for the libsrtp package.
+
+
 %prep
 %setup -q -n libsrtp-1.6.0
+cd %{_builddir}/libsrtp-1.6.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1521242509
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604353374
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
-make  %{?_smp_mflags} shared_library
+make  %{?_smp_mflags}  shared_library
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test
 
 %install
-export SOURCE_DATE_EPOCH=1521242509
+export SOURCE_DATE_EPOCH=1604353374
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/libsrtp
+cp %{_builddir}/libsrtp-1.6.0/LICENSE %{buildroot}/usr/share/package-licenses/libsrtp/3d3bc078b4f48255711755c569e5bc67a0f68af2
 %make_install
 
 %files
@@ -108,3 +131,7 @@ rm -rf %{buildroot}
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libsrtp.so.1
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libsrtp/3d3bc078b4f48255711755c569e5bc67a0f68af2
