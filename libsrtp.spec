@@ -4,7 +4,7 @@
 #
 Name     : libsrtp
 Version  : 1.6.0
-Release  : 5
+Release  : 6
 URL      : https://github.com/cisco/libsrtp/archive/v1.6.0.tar.gz
 Source0  : https://github.com/cisco/libsrtp/archive/v1.6.0.tar.gz
 Summary  : Library for SRTP (Secure Realtime Transport Protocol)
@@ -13,6 +13,7 @@ License  : BSD-3-Clause
 Requires: libsrtp-lib = %{version}-%{release}
 Requires: libsrtp-license = %{version}-%{release}
 BuildRequires : libpcap-dev
+Patch1: 0001-Set-libsrtp.pc-to-require-libpcap.pc.patch
 
 %description
 Secure RTP (SRTP) Reference Implementation
@@ -51,13 +52,14 @@ license components for the libsrtp package.
 %prep
 %setup -q -n libsrtp-1.6.0
 cd %{_builddir}/libsrtp-1.6.0
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1604353374
+export SOURCE_DATE_EPOCH=1604424641
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -77,7 +79,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test
 
 %install
-export SOURCE_DATE_EPOCH=1604353374
+export SOURCE_DATE_EPOCH=1604424641
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libsrtp
 cp %{_builddir}/libsrtp-1.6.0/LICENSE %{buildroot}/usr/share/package-licenses/libsrtp/3d3bc078b4f48255711755c569e5bc67a0f68af2
