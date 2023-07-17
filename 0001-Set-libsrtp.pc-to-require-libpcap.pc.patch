@@ -1,20 +1,20 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Patrick McCarty <patrick.mccarty@intel.com>
 Date: Tue, 3 Nov 2020 17:22:50 +0000
-Subject: [PATCH] Set libsrtp.pc to require libpcap.pc
+Subject: [PATCH] Set libsrtp2.pc to require libpcap.pc
 
 When -lpcap is added to LIBS, the .pc file should depend on libpcap, to
 ensure the runtime requirement is set correctly for -dev.
 
 Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
 ---
- libsrtp.pc.in | 1 +
+ libsrtp2.pc.in | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/libsrtp.pc.in b/libsrtp.pc.in
+diff --git a/libsrtp2.pc.in b/libsrtp2.pc.in
 index 957c9dd..24f39ef 100644
---- a/libsrtp.pc.in
-+++ b/libsrtp.pc.in
+--- a/libsrtp2.pc.in
++++ b/libsrtp2.pc.in
 @@ -9,3 +9,4 @@ Description: Library for SRTP (Secure Realtime Transport Protocol)
  
  Libs: -L${libdir} -lsrtp @LIBS@
